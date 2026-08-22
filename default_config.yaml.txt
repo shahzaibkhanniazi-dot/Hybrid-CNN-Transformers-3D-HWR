@@ -1,0 +1,36 @@
+experiment:
+  name: "hybrid_cnn_transformer_baseline"
+  seed: 42
+
+dataset:
+  name: "OnHW-words500"
+  data_dir: "./data/OnHW"
+  input_channels: 13
+  max_seq_len: 1024
+  batch_size: 32
+  num_workers: 4
+
+model:
+  encoder:
+    in_channels: 13
+    cnn_channels: [64, 128, 256]
+    kernel_sizes: [5, 5, 3]
+  transformer:
+    d_model: 256
+    nhead: 8
+    num_encoder_layers: 4
+    num_decoder_layers: 4
+    dim_feedforward: 1024
+    dropout: 0.1
+  decoder:
+    vocab_size: 60
+    blank_index: 0
+
+training:
+  epochs: 300
+  warmup_epochs: 30
+  lr: 0.0005
+  weight_decay: 0.0001
+  loss_weights:
+    ctc: 0.3
+    cross_entropy: 0.7
